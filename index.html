@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+<div>
+  <button id="button">按住说话</button>
+</div>
+<textarea id="value" disabled rows="6" placeholder="识别到的内容"></textarea>
+
+<script>
+  let SpeechRecognition = webkitSpeechRecognition || SpeechRecognition;
+  const recognition = new SpeechRecognition();
+  // const speechRecognitionList = new SpeechGrammarList();
+  // speechRecognitionList.addFromString(grammar, 1);
+  // recognition.grammars = speechRecognitionList;
+  recognition.continuous = false;
+  recognition.lang = "zh-CN";
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  const diagnostic = document.querySelector(".output");
+  const bg = document.querySelector("html");
+
+  document.getElementById("button").onpointerdown = () => {
+    recognition.start();
+    console.log("Ready to receive a color command.");
+  };
+
+  recognition.onresult = (event) => {
+    document.getElementById("value").value = event.results[0][0].transcript;
+  };
+</script>
+</body>
+</html>
